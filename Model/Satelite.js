@@ -1,4 +1,4 @@
-class Satelite {
+export default class Satelite {
   constructor(type, name, model, weight, revolution, fuel) {
     this.type = type;
     this.name = name;
