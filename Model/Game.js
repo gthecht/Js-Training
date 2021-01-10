@@ -1,5 +1,6 @@
 class Game {
   constructor(
+    satModel,
     screenX,
     screenY,
     playerHeight,
@@ -15,14 +16,17 @@ class Game {
     stoneHeight,
     stoneWidth,
     amongHeight,
-    amongWidth
+    amongWidth,
+    dockHeight,
+    dockWidth
   ) {
     this.screenX = screenX;
     this.screenY = screenY;
     this.isPlaying = true;
     this.score = 0;
-    this.level = 0;
-    this.timer = 150;
+    this.timeLimit = 150;
+    this.timer = 0;
+    this.lives = 3;
     this.eventHandler = new EventHandler();
     this.fpsInterval = 50;
     this.spaceships = [
@@ -267,17 +271,108 @@ class Game {
         trashWidth
       ),
     ];
-    this.player = new Ofeq(
-      screenX,
-      screenY,
-      playerHeight,
-      playerWidth,
-      5,
-      99999,
-      300,
-      "B",
-      "Pluto",
-      "Closed"
-    );
+
+    this.docks = [
+      new Dock(screenX, screenY, screenX / 20, 0, dockHeight, dockWidth),
+      new Dock(
+        screenX,
+        screenY,
+        screenX / 20 + screenX / 5,
+        0,
+        dockHeight,
+        dockWidth
+      ),
+      new Dock(
+        screenX,
+        screenY,
+        screenX / 20 + (2 * screenX) / 5,
+        0,
+        dockHeight,
+        dockWidth
+      ),
+      new Dock(
+        screenX,
+        screenY,
+        screenX / 20 + (3 * screenX) / 5,
+        0,
+        dockHeight,
+        dockWidth
+      ),
+      new Dock(
+        screenX,
+        screenY,
+        screenX / 20 + (4 * screenX) / 5,
+        0,
+        dockHeight,
+        dockWidth
+      ),
+    ];
+    switch (satModel) {
+      case 5:
+        this.player = new Ofeq(
+          screenX,
+          screenY,
+          playerHeight,
+          playerWidth,
+          satModel,
+          99999,
+          300,
+          "B",
+          "Pluto"
+        );
+        break;
+      case 7:
+        this.player = new Ofeq(
+          game.screenX,
+          game.screenY,
+          playerDiv.clientHeight,
+          playerDiv.clientWidth,
+          satModel,
+          99999,
+          300,
+          "B",
+          "Pluto"
+        );
+        break;
+      case 9:
+        this.player = new Ofeq(
+          game.screenX,
+          game.screenY,
+          playerDiv.clientHeight,
+          playerDiv.clientWidth,
+          satModel,
+          99999,
+          300,
+          "B",
+          "Pluto"
+        );
+        break;
+      case 11:
+        this.player = new Ofeq(
+          game.screenX,
+          game.screenY,
+          playerDiv.clientHeight,
+          playerDiv.clientWidth,
+          satModel,
+          99999,
+          300,
+          "C",
+          "Pluto"
+        );
+        break;
+      case 16:
+        this.player = new Ofeq(
+          game.screenX,
+          game.screenY,
+          playerDiv.clientHeight,
+          playerDiv.clientWidth,
+          satModel,
+          99999,
+          300,
+          "C",
+          "Pluto"
+        );
+        break;
+    }
   }
 }

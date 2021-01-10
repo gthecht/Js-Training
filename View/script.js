@@ -6,7 +6,12 @@ const carDivs = document.getElementsByClassName("car");
 const spaceshipDivs = document.getElementsByClassName("spaceship");
 const amongDivs = document.getElementsByClassName("among");
 const playerDiv = document.getElementById("player");
-const game = new Game(
+const dockDivs = document.getElementsByClassName("landing");
+const scoreDiv = document.getElementsByClassName("score")[0];
+const satDiv = document.getElementsByClassName("sat")[0];
+// console.log(dockDivs[0].clientHeight);
+let game = new Game(
+  5,
   gameDiv.clientWidth,
   gameDiv.clientHeight,
   playerDiv.clientHeight,
@@ -22,7 +27,9 @@ const game = new Game(
   stoneDivs[0].clientHeight,
   stoneDivs[0].clientWidth,
   amongDivs[0].clientHeight,
-  amongDivs[0].clientWidth
+  amongDivs[0].clientWidth,
+  dockDivs[0].clientHeight,
+  dockDivs[0].clientWidth
 );
 
 document.addEventListener("keydown", (e) => {
@@ -70,6 +77,7 @@ const init = () => {
     { obj: game.stones, div: stoneDivs },
     { obj: game.bananas, div: bananaDivs },
     { obj: game.trashs, div: trashDivs },
+    { obj: game.docks, div: dockDivs },
   ];
 
   playerDiv.style.left = `${game.player.x}px`;
@@ -122,9 +130,8 @@ const update = () => {
         if (obj.isGood) {
           game.player.update();
         } else {
-          console.log(index + "index");
-          console.log(game);
-          game.isPlaying = false;
+          game.lives--;
+          initGame();
         }
       }
     });
@@ -135,33 +142,35 @@ const update = () => {
     game.player.collide
   )
     game.isPlaying = false;
-
-  // if (isGameOver()) {
-  //   const game = new Game(
-  //     gameDiv.clientWidth,
-  //     gameDiv.clientHeight,
-  //     playerDiv.clientHeight,
-  //     playerDiv.clientWidth,
-  //     bananaDivs[0].clientHeight,
-  //     bananaDivs[0].clientWidth,
-  //     trashDivs[0].clientHeight,
-  //     trashDivs[0].clientWidth,
-  //     carDivs[0].clientHeight,
-  //     carDivs[0].clientWidth,
-  //     spaceshipDivs[0].clientHeight,
-  //     spaceshipDivs[0].clientWidth,
-  //     stoneDivs[0].clientHeight,
-  //     stoneDivs[0].clientWidth,
-  //     amongDivs[0].clientHeight,
-  //     amongDivs[0].clientWidth
-  //   );
-  //   init();
-  // }
 };
 
 const isGameOver = () => {
   // console.log(game.isPlaying);
   return !game.isPlaying;
+};
+
+const initGame = () => {
+  game = new Game(
+    game.player.model,
+    gameDiv.clientWidth,
+    gameDiv.clientHeight,
+    playerDiv.clientHeight,
+    playerDiv.clientWidth,
+    bananaDivs[0].clientHeight,
+    bananaDivs[0].clientWidth,
+    trashDivs[0].clientHeight,
+    trashDivs[0].clientWidth,
+    carDivs[0].clientHeight,
+    carDivs[0].clientWidth,
+    spaceshipDivs[0].clientHeight,
+    spaceshipDivs[0].clientWidth,
+    stoneDivs[0].clientHeight,
+    stoneDivs[0].clientWidth,
+    amongDivs[0].clientHeight,
+    amongDivs[0].clientWidth,
+    dockDivs[0].clientHeight,
+    dockDivs[0].clientWidth
+  );
 };
 
 console.log(game);

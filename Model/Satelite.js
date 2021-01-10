@@ -45,6 +45,7 @@ class Satelite {
   }
 
   collision(obj) {
+    // console.log(obj);
     let x1 = this.x;
     let y1 = this.y;
     let h1 = this.height;
