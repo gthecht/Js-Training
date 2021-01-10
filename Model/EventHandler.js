@@ -1,6 +1,6 @@
-class eventHandler extends Satelite {
+class EventHandler {
   constructor() {
-    this.eventList = {}; // Events that might happen will be embedded in the future
+    this.eventList = { moveUp: [], moveLeft: [], moveDown: [], moveRight: [] };
   }
 
   on(eventName, cb) {
@@ -8,12 +8,12 @@ class eventHandler extends Satelite {
   }
 
   off(eventName) {
-    delete this.eventList[eventName];
+    this.eventList[eventName] = [];
   }
 
   trigger(eventName, eventArgs) {
     this.eventList[eventName].forEach((cb) => {
-      cb(...eventArgs);
+      cb(eventArgs);
     });
   }
 }
