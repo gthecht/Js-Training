@@ -9,7 +9,7 @@ class Ofeq extends Satelite {
     fuel,
     generation,
     favStar,
-    wings
+    wings = "Closed"
   ) {
     super(
       screenX,
