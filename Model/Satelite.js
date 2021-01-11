@@ -45,7 +45,6 @@ class Satelite {
   }
 
   collision(obj) {
-    // console.log(obj);
     let x1 = this.x;
     let y1 = this.y;
     let h1 = this.height;
@@ -63,15 +62,16 @@ class Satelite {
       this.collide = false;
       return false;
     }
-    // console.log("b1: " + b1);
-    // console.log("y2: " + y2);
-    // console.log("y1: " + y1);
-    // console.log("b2: " + b2);
-    // console.log("r1: " + r1);
-    // console.log("x2: " + x2);
-    // console.log("x1: " + x1);
-    // console.log("r2: " + r2);
-    console.log("collision between " + obj.name);
+    console.log("b1: " + b1);
+    console.log("y2: " + y2);
+    console.log("y1: " + y1);
+    console.log("b2: " + b2);
+    console.log("r1: " + r1);
+    console.log("x2: " + x2);
+    console.log("x1: " + x1);
+    console.log("r2: " + r2);
+    // console.log("collision between " + obj.name);
+    console.log(obj);
     this.collide = true;
     return true;
   }

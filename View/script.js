@@ -123,8 +123,64 @@ const update = () => {
     game.eventHandler.off(key);
   });
 
+<<<<<<< HEAD
   playerDiv.style.left = `${game.player.x}px`;
   playerDiv.style.top = `${game.player.y}px`;
+=======
+const update = () => {
+  // Cant access game inside if
+  if ((game.timeLimit * 1000) / game.fpsInterval > game.timer) {
+    game.cars.forEach((car, i) => {
+      car.update();
+      carDivs[i].style.left = `${car.x}px`;
+    });
+    game.spaceships.forEach((ship, i) => {
+      ship.update();
+      spaceshipDivs[i].style.left = `${ship.x}px`;
+    });
+    game.amongs.forEach((among, i) => {
+      among.update();
+      amongDivs[i].style.left = `${among.x}px`;
+    });
+    game.stones.forEach((stone, i) => {
+      stone.update();
+      stoneDivs[i].style.left = `${stone.x}px`;
+    });
+    game.bananas.forEach((banana, i) => {
+      banana.update();
+      bananaDivs[i].style.left = `${banana.x}px`;
+    });
+    game.trashs.forEach((trash, i) => {
+      trash.update();
+      trashDivs[i].style.left = `${trash.x}px`;
+    });
+    Object.keys(game.eventHandler.eventList).forEach((key) => {
+      game.eventHandler.trigger(key, game.player);
+      game.eventHandler.off(key);
+    });
+    playerDiv.style.left = `${game.player.x}px`;
+    playerDiv.style.top = `${game.player.y}px`;
+
+    [
+      game.cars,
+      game.spaceships,
+      game.amongs,
+      game.stones,
+      game.bananas,
+      game.trashs,
+    ].forEach((list) => {
+      list.forEach((obj, index) => {
+        if (game.player.collision(obj)) {
+          if (obj.isGood) {
+            game.player.update();
+          } else {
+            game.lives--;
+            initGame();
+          }
+        }
+      });
+    });
+>>>>>>> 34e6b94... Fixed bug when after re-creating game collision didnt work
 
   allObjs.forEach((list) => {
     list.forEach((obj, index) => {
