@@ -18,7 +18,8 @@ class Game {
     amongHeight,
     amongWidth,
     dockHeight,
-    dockWidth
+    dockWidth,
+    lives
   ) {
     this.screenX = screenX;
     this.screenY = screenY;
@@ -26,7 +27,7 @@ class Game {
     this.score = 0;
     this.timeLimit = 150;
     this.timer = 0;
-    this.lives = 3;
+    this.lives = lives;
     this.eventHandler = new EventHandler();
     this.fpsInterval = 50;
     this.spaceships = [

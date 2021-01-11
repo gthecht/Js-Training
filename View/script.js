@@ -9,7 +9,8 @@ const playerDiv = document.getElementById("player");
 const dockDivs = document.getElementsByClassName("landing");
 const scoreDiv = document.getElementsByClassName("score")[0];
 const satDiv = document.getElementsByClassName("sat")[0];
-// console.log(dockDivs[0].clientHeight);
+const heartDivs = document.getElementsByClassName("heart");
+
 let game = new Game(
   5,
   gameDiv.clientWidth,
@@ -29,7 +30,8 @@ let game = new Game(
   amongDivs[0].clientHeight,
   amongDivs[0].clientWidth,
   dockDivs[0].clientHeight,
-  dockDivs[0].clientWidth
+  dockDivs[0].clientWidth,
+  3
 );
 
 document.addEventListener("keydown", (e) => {
@@ -145,7 +147,6 @@ const update = () => {
 };
 
 const isGameOver = () => {
-  // console.log(game.isPlaying);
   return !game.isPlaying;
 };
 
@@ -169,7 +170,8 @@ const initGame = () => {
     amongDivs[0].clientHeight,
     amongDivs[0].clientWidth,
     dockDivs[0].clientHeight,
-    dockDivs[0].clientWidth
+    dockDivs[0].clientWidth,
+    game.lives
   );
 };
 
