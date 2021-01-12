@@ -7,8 +7,10 @@ const spaceshipDivs = document.getElementsByClassName("spaceship");
 const amongDivs = document.getElementsByClassName("among");
 const playerDiv = document.getElementById("player");
 const dockDivs = document.getElementsByClassName("landing");
+const rocketDivs = document.getElementsByClassName("rocket");
 const scoreDiv = document.getElementsByClassName("score")[0];
 const satDiv = document.getElementsByClassName("sat")[0];
+const timeDiv = document.getElementsByClassName("time")[0];
 const heartDivs = document.getElementsByClassName("heart");
 
 let game = new Game(
@@ -30,8 +32,7 @@ let game = new Game(
   amongDivs[0].clientHeight,
   amongDivs[0].clientWidth,
   dockDivs[0].clientHeight,
-  dockDivs[0].clientWidth,
-  3
+  dockDivs[0].clientWidth
 );
 
 document.addEventListener("keydown", (e) => {
@@ -80,6 +81,7 @@ const init = () => {
     { obj: game.bananas, div: bananaDivs },
     { obj: game.trashs, div: trashDivs },
     { obj: game.docks, div: dockDivs },
+    { obj: game.docks, div: rocketDivs },
   ];
 
   playerDiv.style.left = `${game.player.x}px`;
@@ -100,106 +102,161 @@ const updateDivs = (gameObjArr, divs) => {
     gameObj.update();
     divs[i].style.left = `${gameObj.x}px`;
     divs[i].style.top = `${gameObj.y}px`;
+    if (divs[i].className === "rocket") divs[i].style.visibility = "hidden";
   });
 };
 
 const update = () => {
-  let gameObjsAndDivs = [
-    { obj: game.cars, div: carDivs },
-    { obj: game.spaceships, div: spaceshipDivs },
-    { obj: game.amongs, div: amongDivs },
-    { obj: game.stones, div: stoneDivs },
-    { obj: game.bananas, div: bananaDivs },
-    { obj: game.trashs, div: trashDivs },
-  ];
-
-  // Updating obstacles div's position
-  gameObjsAndDivs.forEach((pair) => {
-    updateDivs(pair.obj, pair.div);
-  });
-
-  Object.keys(game.eventHandler.eventList).forEach((key) => {
-    game.eventHandler.trigger(key, game.player);
-    game.eventHandler.off(key);
-  });
-
-<<<<<<< HEAD
-  playerDiv.style.left = `${game.player.x}px`;
-  playerDiv.style.top = `${game.player.y}px`;
-=======
-const update = () => {
-  // Cant access game inside if
   if ((game.timeLimit * 1000) / game.fpsInterval > game.timer) {
-    game.cars.forEach((car, i) => {
-      car.update();
-      carDivs[i].style.left = `${car.x}px`;
+    let gameObjsAndDivs = [
+      { obj: game.cars, div: carDivs },
+      { obj: game.spaceships, div: spaceshipDivs },
+      { obj: game.amongs, div: amongDivs },
+      { obj: game.stones, div: stoneDivs },
+      { obj: game.bananas, div: bananaDivs },
+      { obj: game.trashs, div: trashDivs },
+    ];
+
+    // Updating obstacles div's position
+    gameObjsAndDivs.forEach((pair) => {
+      updateDivs(pair.obj, pair.div);
     });
-    game.spaceships.forEach((ship, i) => {
-      ship.update();
-      spaceshipDivs[i].style.left = `${ship.x}px`;
-    });
-    game.amongs.forEach((among, i) => {
-      among.update();
-      amongDivs[i].style.left = `${among.x}px`;
-    });
-    game.stones.forEach((stone, i) => {
-      stone.update();
-      stoneDivs[i].style.left = `${stone.x}px`;
-    });
-    game.bananas.forEach((banana, i) => {
-      banana.update();
-      bananaDivs[i].style.left = `${banana.x}px`;
-    });
-    game.trashs.forEach((trash, i) => {
-      trash.update();
-      trashDivs[i].style.left = `${trash.x}px`;
-    });
+
     Object.keys(game.eventHandler.eventList).forEach((key) => {
       game.eventHandler.trigger(key, game.player);
       game.eventHandler.off(key);
     });
+
     playerDiv.style.left = `${game.player.x}px`;
     playerDiv.style.top = `${game.player.y}px`;
 
+    // Checking if one of the obstacles has collisoned into our player
     [
-      game.cars,
-      game.spaceships,
-      game.amongs,
-      game.stones,
-      game.bananas,
-      game.trashs,
-    ].forEach((list) => {
-      list.forEach((obj, index) => {
-        if (game.player.collision(obj)) {
-          if (obj.isGood) {
-            game.player.update();
-          } else {
-            game.lives--;
-            initGame();
-          }
-        }
-      });
-    });
->>>>>>> 34e6b94... Fixed bug when after re-creating game collision didnt work
-
-  allObjs.forEach((list) => {
-    list.forEach((obj, index) => {
+      ...game.cars,
+      ...game.spaceships,
+      ...game.amongs,
+      ...game.stones,
+      ...game.bananas,
+      ...game.trashs,
+    ].forEach((obj) => {
       if (game.player.collision(obj)) {
         if (obj.isGood) {
-          game.player.update();
+          // console.log(obj.dir);
+          game.player.update(obj.dir);
         } else {
           game.lives--;
           initGame();
         }
       }
     });
-  });
 
-  if (
-    game.screenY * 0.1 <= game.player.y <= game.screenY * 0.3 &&
-    game.player.collide
-  )
-    game.isPlaying = false;
+    // Checking if our player has landed on one of the docks and if he did
+    // changing the state of the game according to the current state
+    game.docks.forEach((dock, index) => {
+      if (game.player.collision(dock) && dock.isAvailable) {
+        dock.isAvailable = false;
+        rocketDivs[index].style.visibility = "visible";
+        switch (`${game.player.name}-${game.player.model}`) {
+          case "Ofeq-5":
+            game.score++;
+            game.timeLimit = 150;
+            game.player = new Ofeq(
+              game.screenX,
+              game.screenY,
+              playerDiv.clientHeight,
+              playerDiv.clientWidth,
+              7,
+              99999,
+              300,
+              "B",
+              "Pluto"
+            );
+            game.fpsInterval -= 10;
+            break;
+          case "Ofeq-7":
+            game.score++;
+            game.timeLimit = 120;
+            game.player = new Ofeq(
+              game.screenX,
+              game.screenY,
+              playerDiv.clientHeight,
+              playerDiv.clientWidth,
+              9,
+              99999,
+              300,
+              "B",
+              "Pluto"
+            );
+            game.fpsInterval -= 10;
+            break;
+          case "Ofeq-9":
+            game.score++;
+            game.timeLimit = 90;
+            game.player = new Ofeq(
+              game.screenX,
+              game.screenY,
+              playerDiv.clientHeight,
+              playerDiv.clientWidth,
+              11,
+              99999,
+              300,
+              "C",
+              "Pluto"
+            );
+            game.fpsInterval -= 10;
+            break;
+          case "Ofeq-11":
+            game.score++;
+            game.timeLimit = 60;
+            game.player = new Ofeq(
+              game.screenX,
+              game.screenY,
+              playerDiv.clientHeight,
+              playerDiv.clientWidth,
+              16,
+              99999,
+              300,
+              "C",
+              "Pluto"
+            );
+            game.fpsInterval -= 10;
+            break;
+          case "Ofeq-16":
+            game.score++;
+            game.timeLimit = 40;
+            console.log("You won");
+            break;
+        }
+      }
+    });
+
+    for (let i = 0; i < 3 - game.lives; i++) {
+      heartDivs[i].style.visibility = "hidden";
+    }
+
+    // Checking that our player is floating on one of the objects in space
+    if (
+      game.player.y >= 0.1 * game.screenY &&
+      game.player.y <= 0.3 * game.screenY
+    ) {
+      game.player.wings = "Opened";
+      if (!game.player.collide) {
+        console.log("entered");
+        game.lives--;
+        initGame();
+        game.timer = 0;
+        if (game.lives <= 0) game.isPlaying = false;
+      }
+    } else game.player.wings = "Closed";
+
+    game.timer++;
+    game.player.collide = false;
+  } else {
+    game.lives--;
+    initGame();
+    game.timer = 0;
+    if (game.lives <= 0) game.isPlaying = false;
+  }
 };
 
 const isGameOver = () => {

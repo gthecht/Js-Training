@@ -59,20 +59,20 @@ class Satelite {
     let r2 = x2 + w2;
 
     if (b1 <= y2 || y1 >= b2 || r1 <= x2 || x1 >= r2) {
-      this.collide = false;
       return false;
     }
-    console.log("b1: " + b1);
-    console.log("y2: " + y2);
-    console.log("y1: " + y1);
-    console.log("b2: " + b2);
-    console.log("r1: " + r1);
-    console.log("x2: " + x2);
-    console.log("x1: " + x1);
-    console.log("r2: " + r2);
-    // console.log("collision between " + obj.name);
-    console.log(obj);
+    console.log("collision between " + obj.name);
     this.collide = true;
     return true;
+  }
+
+  update(dir) {
+    console.log(dir);
+    this.x = this.x + dir;
+    if (dir === 1) {
+      if (this.x + this.width > this.screenX + this.width / 2) this.x = 0;
+    } else {
+      if (this.x - this.width < 0 - this.width / 2) this.x = this.screenX;
+    }
   }
 }

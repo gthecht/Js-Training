@@ -19,17 +19,19 @@ class Game {
     amongWidth,
     dockHeight,
     dockWidth,
-    lives
+    lives = 3,
+    score = 0,
+    fpsInterval = 50
   ) {
     this.screenX = screenX;
     this.screenY = screenY;
     this.isPlaying = true;
-    this.score = 0;
+    this.score = score;
     this.timeLimit = 150;
     this.timer = 0;
     this.lives = lives;
     this.eventHandler = new EventHandler();
-    this.fpsInterval = 50;
+    this.fpsInterval = fpsInterval;
     this.spaceships = [
       new Obstacle(
         "spaceship",
@@ -71,7 +73,8 @@ class Game {
         0,
         0.2 * screenY,
         carHeight,
-        carWidth
+        carWidth,
+        -1
       ),
       new Obstacle(
         "car",
@@ -81,7 +84,8 @@ class Game {
         screenX / 4,
         0.2 * screenY,
         carHeight,
-        carWidth
+        carWidth,
+        -1
       ),
       new Obstacle(
         "car",
@@ -91,7 +95,8 @@ class Game {
         (2 * screenX) / 4,
         0.2 * screenY,
         carHeight,
-        carWidth
+        carWidth,
+        -1
       ),
       new Obstacle(
         "car",
@@ -101,7 +106,8 @@ class Game {
         (3 * screenX) / 4,
         0.2 * screenY,
         carHeight,
-        carWidth
+        carWidth,
+        -1
       ),
     ];
     this.amongs = [
@@ -187,7 +193,8 @@ class Game {
         0,
         screenY - 0.3 * screenY,
         bananaHeight,
-        bananaWidth
+        bananaWidth,
+        -1
       ),
       new Obstacle(
         "banana",
@@ -197,7 +204,8 @@ class Game {
         screenX / 5,
         screenY - 0.3 * screenY,
         bananaHeight,
-        bananaWidth
+        bananaWidth,
+        -1
       ),
       new Obstacle(
         "banana",
@@ -207,7 +215,8 @@ class Game {
         (2 * screenX) / 5,
         screenY - 0.3 * screenY,
         bananaHeight,
-        bananaWidth
+        bananaWidth,
+        -1
       ),
       new Obstacle(
         "banana",
@@ -217,7 +226,8 @@ class Game {
         (3 * screenX) / 5,
         screenY - 0.3 * screenY,
         bananaHeight,
-        bananaWidth
+        bananaWidth,
+        -1
       ),
       new Obstacle(
         "banana",
@@ -227,7 +237,8 @@ class Game {
         (4 * screenX) / 5,
         screenY - 0.3 * screenY,
         bananaHeight,
-        bananaWidth
+        bananaWidth,
+        -1
       ),
     ];
     this.trashs = [

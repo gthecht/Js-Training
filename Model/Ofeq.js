@@ -43,8 +43,9 @@ class Ofeq extends Satelite {
   collision(obj) {
     return super.collision(obj);
   }
-  update() {
-    this.x++;
-    if (this.x + this.width > this.screenX + this.width / 2) this.x = 0;
+
+  update(dir) {
+    console.log(dir);
+    super.update(dir);
   }
 }

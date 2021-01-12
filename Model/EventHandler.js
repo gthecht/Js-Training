@@ -11,9 +11,9 @@ class EventHandler {
     this.eventList[eventName] = [];
   }
 
-  trigger(eventName, eventArgs) {
+  trigger(eventName, ...eventArgs) {
     this.eventList[eventName].forEach((cb) => {
-      cb(eventArgs);
+      cb(...eventArgs);
     });
   }
 }

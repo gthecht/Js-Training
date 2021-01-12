@@ -123,7 +123,7 @@ img {
   display: block;
   /* width: 20%; */
   height: 10%;
-  z-index: 2;
+  z-index: 10;
   position: absolute;
   top: 95%;
   margin-left: 5px;
@@ -132,11 +132,23 @@ img {
   color: #fff;
 }
 
+.time {
+  display: block;
+  height: 10%;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  margin-left: 5px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+}
+
 .sat {
   display: block;
   width: 20%;
   height: 10%;
-  z-index: 2;
+  z-index: 10;
   position: absolute;
   top: 90%;
   margin-left: 5px;
@@ -159,6 +171,16 @@ img {
   z-index: 1;
   width: 40px;
   height: 40px;
+}
+
+.rocket {
+  visibility: hidden;
+  position: absolute;
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  z-index: 2;
+  /* background-color: blueviolet; */
 }
 
 @keyframes rotation {
