@@ -8,32 +8,41 @@ const amongDivs = document.getElementsByClassName("among");
 const playerDiv = document.getElementById("player");
 const dockDivs = document.getElementsByClassName("landing");
 const rocketDivs = document.getElementsByClassName("rocket");
-const scoreDiv = document.getElementsByClassName("score")[0];
+const scoreDiv = document.getElementById("ingame_score");
 const satDiv = document.getElementsByClassName("sat")[0];
 const timeDiv = document.getElementsByClassName("time")[0];
 const heartDivs = document.getElementsByClassName("heart");
+const startBtn = document.getElementById("start_btn");
+const rstBtn = document.getElementById("restart_btn");
+const menuDiv = document.getElementById("menu");
+const finishDiv = document.getElementById("finish");
+const finishScore = document.getElementById("finish_score");
 
-let game = new Game(
-  5,
-  gameDiv.clientWidth,
-  gameDiv.clientHeight,
-  playerDiv.clientHeight,
-  playerDiv.clientWidth,
-  bananaDivs[0].clientHeight,
-  bananaDivs[0].clientWidth,
-  trashDivs[0].clientHeight,
-  trashDivs[0].clientWidth,
-  carDivs[0].clientHeight,
-  carDivs[0].clientWidth,
-  spaceshipDivs[0].clientHeight,
-  spaceshipDivs[0].clientWidth,
-  stoneDivs[0].clientHeight,
-  stoneDivs[0].clientWidth,
-  amongDivs[0].clientHeight,
-  amongDivs[0].clientWidth,
-  dockDivs[0].clientHeight,
-  dockDivs[0].clientWidth
-);
+const initGame = () => {
+  return new Game(
+    5,
+    gameDiv.clientWidth,
+    gameDiv.clientHeight,
+    playerDiv.clientHeight,
+    playerDiv.clientWidth,
+    bananaDivs[0].clientHeight,
+    bananaDivs[0].clientWidth,
+    trashDivs[0].clientHeight,
+    trashDivs[0].clientWidth,
+    carDivs[0].clientHeight,
+    carDivs[0].clientWidth,
+    spaceshipDivs[0].clientHeight,
+    spaceshipDivs[0].clientWidth,
+    stoneDivs[0].clientHeight,
+    stoneDivs[0].clientWidth,
+    amongDivs[0].clientHeight,
+    amongDivs[0].clientWidth,
+    dockDivs[0].clientHeight,
+    dockDivs[0].clientWidth
+  );
+};
+
+let game = initGame();
 
 document.addEventListener("keydown", (e) => {
   switch (e.keyCode) {
@@ -104,6 +113,10 @@ const updateDivs = (gameObjArr, divs) => {
     divs[i].style.top = `${gameObj.y}px`;
     if (divs[i].className === "rocket") divs[i].style.visibility = "hidden";
   });
+
+  for (let i = 0; i < game.lives; i++) {
+    heartDivs[i].style.visibility = "visible";
+  }
 };
 
 const update = () => {
@@ -145,13 +158,15 @@ const update = () => {
           game.player.update(obj.dir);
         } else {
           game.lives--;
-          initGame();
+          zeroGame();
         }
       }
     });
 
-    // Checking if our player has landed on one of the docks and if he did
-    // changing the state of the game according to the current state
+    /*
+      Checking if our player has landed on one of the docks and if he did
+      changing the state of the game according to the current state
+    */
     game.docks.forEach((dock, index) => {
       if (game.player.collision(dock) && dock.isAvailable) {
         dock.isAvailable = false;
@@ -243,9 +258,8 @@ const update = () => {
       if (!game.player.collide) {
         console.log("entered");
         game.lives--;
-        initGame();
+        zeroGame();
         game.timer = 0;
-        if (game.lives <= 0) game.isPlaying = false;
       }
     } else game.player.wings = "Closed";
 
@@ -253,17 +267,27 @@ const update = () => {
     game.player.collide = false;
   } else {
     game.lives--;
-    initGame();
+    zeroGame();
     game.timer = 0;
-    if (game.lives <= 0) game.isPlaying = false;
   }
+  timeDiv.innerHTML = `${((game.timer * game.fpsInterval) / 1000).toFixed(1)}/${
+    game.timeLimit
+  }s`;
+  console.log(game);
+  satDiv.innerHTML = `${game.player.name}-${game.player.model}`;
+  scoreDiv.innerHTML = `Score: ${game.score}`;
+  if (game.lives <= 0) game.isPlaying = false;
+  if (!game.isPlaying) {
+    finishDiv.style.visibility = "visible";
+    finishScore.innerHTML = `Score: ${game.score}`;
+  } else window.setTimeout(update, game.fpsInterval);
 };
 
 const isGameOver = () => {
   return !game.isPlaying;
 };
 
-const initGame = () => {
+const zeroGame = () => {
   game = new Game(
     game.player.model,
     gameDiv.clientWidth,
@@ -289,5 +313,15 @@ const initGame = () => {
 };
 
 console.log(game);
-init();
-setInterval(update, game.fpsInterval);
+startBtn.onclick = () => {
+  menu.style.visibility = "hidden";
+  init();
+  update();
+};
+
+rstBtn.onclick = () => {
+  finishDiv.style.visibility = "hidden";
+  game = initGame();
+  init();
+  update();
+};

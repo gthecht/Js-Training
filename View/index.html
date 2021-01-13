@@ -8,9 +8,23 @@
 </head>
 <body>
     <div id="game">
+        <div id="menu" class="menu-screen">
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            <button id="start_btn">Start game</button>
+        </div>
+        <div id="finish" class="menu-screen invis">
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            
+            <button id="restart_btn" class="button">Restart</button>
+            <div id="finish_score">Score: 0</div>
+        </div>
         <div class="earth"><img src="../assets/earth.jpg" alt="earth"></div>
         <div class="atmosphere"></div>
-        <div class= "space"><img src="../assets/space.jpg" alt="space"></div>
+        <div class="space"><img src="../assets/space.jpg" alt="space"></div>
 
         <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
         <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
@@ -61,7 +75,7 @@
 
         <div class="time">Time: </div>
         <div class="sat">Ofeq-5</div>
-        <div class="score">Score: 0</div>
+        <div id="ingame_score" class="score">Score: 0</div>
         
         <div id="player"><img src="../assets/rocket.png"></div>
     </div>
