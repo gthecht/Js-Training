@@ -22,7 +22,7 @@ img {
   display: inline-block;
   width: 10%;
   height: 10%;
-  background-color: black;
+  /* background-color: black; */
   z-index: 1;
   position: absolute;
 }
