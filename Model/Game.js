@@ -1,5 +1,6 @@
 class Game {
   constructor(
+    scores = [],
     satModel,
     screenX,
     screenY,
@@ -32,6 +33,7 @@ class Game {
     this.lives = lives;
     this.eventHandler = new EventHandler();
     this.fpsInterval = fpsInterval;
+    this.scores = scores;
     this.spaceships = [
       new Obstacle(
         "spaceship",

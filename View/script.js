@@ -14,12 +14,17 @@ const timeDiv = document.getElementsByClassName("time")[0];
 const heartDivs = document.getElementsByClassName("heart");
 const startBtn = document.getElementById("start_btn");
 const rstBtn = document.getElementById("restart_btn");
+const backBtn = document.getElementById("back_btn");
+const scoreboardBtn = document.getElementById("scoreboard_btn");
 const menuDiv = document.getElementById("menu");
 const finishDiv = document.getElementById("finish");
 const finishScore = document.getElementById("finish_score");
+const scoreboardDiv = document.getElementById("scoreboard");
+const scoreDivs = document.getElementsByClassName("m-auto-0");
 
-const initGame = () => {
+const initGame = (scores) => {
   return new Game(
+    scores,
     5,
     gameDiv.clientWidth,
     gameDiv.clientHeight,
@@ -42,7 +47,7 @@ const initGame = () => {
   );
 };
 
-let game = initGame();
+let game = initGame([]);
 
 document.addEventListener("keydown", (e) => {
   switch (e.keyCode) {
@@ -239,6 +244,7 @@ const update = () => {
           case "Ofeq-16":
             game.score++;
             game.timeLimit = 40;
+            game.isPlaying = false;
             console.log("You won");
             break;
         }
@@ -280,6 +286,7 @@ const update = () => {
   if (!game.isPlaying) {
     finishDiv.style.visibility = "visible";
     finishScore.innerHTML = `Score: ${game.score}`;
+    game.scores.push(game.score);
   } else window.setTimeout(update, game.fpsInterval);
 };
 
@@ -289,6 +296,7 @@ const isGameOver = () => {
 
 const zeroGame = () => {
   game = new Game(
+    game.scores,
     game.player.model,
     gameDiv.clientWidth,
     gameDiv.clientHeight,
@@ -321,7 +329,21 @@ startBtn.onclick = () => {
 
 rstBtn.onclick = () => {
   finishDiv.style.visibility = "hidden";
-  game = initGame();
+  game = initGame(game.scores);
   init();
   update();
+};
+
+backBtn.onclick = () => {
+  scoreboardDiv.style.visibility = "hidden";
+  finishDiv.style.visibility = "visible";
+};
+
+scoreboardBtn.onclick = () => {
+  finishDiv.style.visibility = "hidden";
+  scoreboardDiv.style.visibility = "visible";
+  game.scores.sort().reverse();
+  for (let i = 0; i < game.scores.length; i++)
+    if (i < 3) scoreDivs[i].innerHTML = `Score: ${game.scores[i]}`;
+    else break;
 };

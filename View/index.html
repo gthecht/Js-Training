@@ -9,18 +9,31 @@
 <body>
     <div id="game">
         <div id="menu" class="menu-screen">
+            <div class="background"><img src="../assets/space.jpg"></div>
             <div class="logo">
                 <img src="../assets/applogo.png" alt="AppLogo">
             </div>
             <button id="start_btn">Start game</button>
         </div>
         <div id="finish" class="menu-screen invis">
+            <div class="background"><img src="../assets/space.jpg"></div>
             <div class="logo">
                 <img src="../assets/applogo.png" alt="AppLogo">
             </div>
-            
-            <button id="restart_btn" class="button">Restart</button>
             <div id="finish_score">Score: 0</div>
+            <button id="scoreboard_btn" class="button">Score board</button>
+            <button id="restart_btn" class="button">Restart</button>
+            
+        </div>
+        <div id="scoreboard" class="menu-screen invis">
+            <div class="background"><img src="../assets/space.jpg"></div>
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            <div class="item"><img src="../assets/goldenTrophy.png"> <div class="m-auto-0"></div></div>
+            <div class="item"><img src="../assets/silverTrophy.png"> <div class="m-auto-0"></div></div>
+            <div class="item"><img src="../assets/bronzeTrophy.png"> <div class="m-auto-0"></div></div>
+            <button id="back_btn" class="button">Go back</button>
         </div>
         <div class="earth"><img src="../assets/earth.jpg" alt="earth"></div>
         <div class="atmosphere"></div>
