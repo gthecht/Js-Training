@@ -22,6 +22,10 @@ const finishScore = document.getElementById("finish_score");
 const scoreboardDiv = document.getElementById("scoreboard");
 const scoreDivs = document.getElementsByClassName("m-auto-0");
 
+/**
+ * Recreates game with array of scores
+ * @param {Array} scores   Array of scores to present in scoreboard
+ */
 const initGame = (scores) => {
   return new Game(
     scores,
@@ -53,22 +57,23 @@ document.addEventListener("keydown", (e) => {
   switch (e.keyCode) {
     case 37:
       game.eventHandler.on("moveLeft", (player) => {
-        player.x -= player.step / 4;
+        if (player.x >= player.step / 4) player.x -= player.step / 4;
       });
       break;
     case 38:
       game.eventHandler.on("moveUp", (player) => {
-        player.y -= player.step;
+        if (player.y >= player.height) player.y -= player.step;
       });
       break;
     case 39:
       game.eventHandler.on("moveRight", (player) => {
-        player.x += player.step / 4;
+        if (player.x < player.screenX - player.width)
+          player.x += player.step / 4;
       });
       break;
     case 40:
       game.eventHandler.on("moveDown", (player) => {
-        player.y += player.step;
+        if (player.y < player.screenY - player.height) player.y += player.step;
       });
       break;
   }
@@ -83,6 +88,7 @@ const initDivs = (gameObjArr, divs) => {
   gameObjArr.forEach((gameObj, i) => {
     divs[i].style.left = `${gameObj.x}px`;
     divs[i].style.top = `${gameObj.y}px`;
+    if (divs[i].className === "rocket") divs[i].style.visibility = "hidden";
   });
 };
 
@@ -104,6 +110,10 @@ const init = () => {
   gameObjsAndDivs.forEach((pair) => {
     initDivs(pair.obj, pair.div);
   });
+
+  for (let i = 0; i < game.lives; i++) {
+    heartDivs[i].style.visibility = "visible";
+  }
 };
 
 /**
@@ -116,15 +126,11 @@ const updateDivs = (gameObjArr, divs) => {
     gameObj.update();
     divs[i].style.left = `${gameObj.x}px`;
     divs[i].style.top = `${gameObj.y}px`;
-    if (divs[i].className === "rocket") divs[i].style.visibility = "hidden";
   });
-
-  for (let i = 0; i < game.lives; i++) {
-    heartDivs[i].style.visibility = "visible";
-  }
 };
 
 const update = () => {
+  // Checking if player has passed the time limit
   if ((game.timeLimit * 1000) / game.fpsInterval > game.timer) {
     let gameObjsAndDivs = [
       { obj: game.cars, div: carDivs },
@@ -140,6 +146,7 @@ const update = () => {
       updateDivs(pair.obj, pair.div);
     });
 
+    // Updating the position of my satelite according to events performed
     Object.keys(game.eventHandler.eventList).forEach((key) => {
       game.eventHandler.trigger(key, game.player);
       game.eventHandler.off(key);
@@ -149,29 +156,24 @@ const update = () => {
     playerDiv.style.top = `${game.player.y}px`;
 
     // Checking if one of the obstacles has collisoned into our player
-    [
-      ...game.cars,
-      ...game.spaceships,
-      ...game.amongs,
-      ...game.stones,
-      ...game.bananas,
-      ...game.trashs,
-    ].forEach((obj) => {
-      if (game.player.collision(obj)) {
-        if (obj.isGood) {
-          // console.log(obj.dir);
-          game.player.update(obj.dir);
-        } else {
-          game.lives--;
-          zeroGame();
+    gameObjsAndDivs.forEach((pair) => {
+      pair.obj.forEach((obj) => {
+        if (game.player.collision(obj)) {
+          if (obj.isGood) {
+            game.player.update(obj.dir);
+          } else {
+            game.lives--;
+            zeroGame();
+          }
         }
-      }
+      });
     });
 
     /*
       Checking if our player has landed on one of the docks and if he did
       changing the state of the game according to the current state
     */
+
     game.docks.forEach((dock, index) => {
       if (game.player.collision(dock) && dock.isAvailable) {
         dock.isAvailable = false;
@@ -256,10 +258,7 @@ const update = () => {
     }
 
     // Checking that our player is floating on one of the objects in space
-    if (
-      game.player.y >= 0.1 * game.screenY &&
-      game.player.y <= 0.3 * game.screenY
-    ) {
+    if (game.player.y <= 0.3 * game.screenY) {
       game.player.wings = "Opened";
       if (!game.player.collide) {
         console.log("entered");
@@ -276,13 +275,17 @@ const update = () => {
     zeroGame();
     game.timer = 0;
   }
+
+  // Updating time, sat, score div's text, according to the current state of the game
   timeDiv.innerHTML = `${((game.timer * game.fpsInterval) / 1000).toFixed(1)}/${
     game.timeLimit
   }s`;
-  console.log(game);
   satDiv.innerHTML = `${game.player.name}-${game.player.model}`;
   scoreDiv.innerHTML = `Score: ${game.score}`;
+
+  // Checking if player has died 3 times
   if (game.lives <= 0) game.isPlaying = false;
+
   if (!game.isPlaying) {
     finishDiv.style.visibility = "visible";
     finishScore.innerHTML = `Score: ${game.score}`;
@@ -294,6 +297,9 @@ const isGameOver = () => {
   return !game.isPlaying;
 };
 
+/**
+ * Resets game upon failure
+ */
 const zeroGame = () => {
   game = new Game(
     game.scores,
@@ -316,11 +322,12 @@ const zeroGame = () => {
     amongDivs[0].clientWidth,
     dockDivs[0].clientHeight,
     dockDivs[0].clientWidth,
-    game.lives
+    game.lives,
+    game.score,
+    game.fpsInterval
   );
 };
 
-console.log(game);
 startBtn.onclick = () => {
   menu.style.visibility = "hidden";
   init();
