@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Oddity</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game">
+        <div id="menu" class="menu-screen">
+            <div class="background"><img src="../assets/space.jpg"></div>
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            <button id="start_btn">Start game</button>
+        </div>
+        <div id="finish" class="menu-screen invis">
+            <div class="background"><img src="../assets/space.jpg"></div>
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            <div id="finish_score">Score: 0</div>
+            <button id="scoreboard_btn" class="button">Score board</button>
+            <button id="restart_btn" class="button">Restart</button>
+            
+        </div>
+        <div id="scoreboard" class="menu-screen invis">
+            <div class="background"><img src="../assets/space.jpg"></div>
+            <div class="logo">
+                <img src="../assets/applogo.png" alt="AppLogo">
+            </div>
+            <div class="item"><img src="../assets/goldenTrophy.png"> <div class="m-auto-0"></div></div>
+            <div class="item"><img src="../assets/silverTrophy.png"> <div class="m-auto-0"></div></div>
+            <div class="item"><img src="../assets/bronzeTrophy.png"> <div class="m-auto-0"></div></div>
+            <button id="back_btn" class="button">Go back</button>
+        </div>
+        <div class="earth"><img src="../assets/earth.jpg" alt="earth"></div>
+        <div class="atmosphere"></div>
+        <div class="space"><img src="../assets/space.jpg" alt="space"></div>
+
+        <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
+        <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
+        <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
+        <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
+        <div class="landing"><img src="../assets/landing.png" alt="landing"></div>
+
+        <div class="rocket"><img src="../assets/rocket.png" alt="rocket"></div>
+        <div class="rocket"><img src="../assets/rocket.png" alt="rocket"></div>
+        <div class="rocket"><img src="../assets/rocket.png" alt="rocket"></div>
+        <div class="rocket"><img src="../assets/rocket.png" alt="rocket"></div>
+        <div class="rocket"><img src="../assets/rocket.png" alt="rocket"></div>
+
+        <div class="spaceship"><img src="../assets/spaceship.png"></div>
+        <div class="spaceship"><img src="../assets/spaceship.png"></div>
+        <div class="spaceship"><img src="../assets/spaceship.png"></div>
+
+        <div class="car"><img src="../assets/tesla.png"></div>
+        <div class="car"><img src="../assets/tesla.png"></div>
+        <div class="car"><img src="../assets/tesla.png"></div>
+        <div class="car"><img src="../assets/tesla.png"></div>
+
+        <div class="among"><img src="../assets/among.png"></div>
+        <div class="among"><img src="../assets/among.png"></div>
+        <div class="among"><img src="../assets/among.png"></div>
+        <div class="among"><img src="../assets/among.png"></div>
+        
+        <div class="stone"><img src="../assets/stone.png"></div>
+        <div class="stone"><img src="../assets/stone.png"></div>
+        <div class="stone"><img src="../assets/stone.png"></div>
+
+        <div class="banana"><img src="../assets/banana.png"></div>
+        <div class="banana"><img src="../assets/banana.png"></div>
+        <div class="banana"><img src="../assets/banana.png"></div>
+        <div class="banana"><img src="../assets/banana.png"></div>
+        <div class="banana"><img src="../assets/banana.png"></div>
+        
+        <div class="trash"><img src="../assets/trash.png"></div>
+        <div class="trash"><img src="../assets/trash.png"></div>
+        <div class="trash"><img src="../assets/trash.png"></div>
+        <div class="trash"><img src="../assets/trash.png"></div>
+        
+        <div class="lives-container">
+            <div id="heart-1" class="heart"><img src="../assets/heart.png"></div>
+            <div id="heart-2" class="heart"><img src="../assets/heart.png"></div>
+            <div id="heart-3" class="heart"><img src="../assets/heart.png"></div>
+        </div>
+
+        <div class="time">Time: </div>
+        <div class="sat">Ofeq-5</div>
+        <div id="ingame_score" class="score">Score: 0</div>
+        
+        <div id="player"><img src="../assets/rocket.png"></div>
+    </div>
+</body>
+<script src="../Model/Satelite.js"></script>
+<script src="../Model/Ofeq.js"></script>
+<script src="../Model/Obstacle.js"></script>
+<script src="../Model/Dock.js"></script>
+<script src="../Model/Game.js"></script>
+<script src="../Model/EventHandler.js"></script>
+<script src="script.js"></script>
+</html>
